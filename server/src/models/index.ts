@@ -15,6 +15,4 @@ const db = new Sequelize(config[env].database, config[env].username, config[env]
     model(db);
 });
 
-db.models.Task.hasOne(db.models.Task);
-
 export default db;
