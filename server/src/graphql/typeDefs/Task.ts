@@ -1,4 +1,3 @@
-
 export default `#graphql
     type Task {
         title: String

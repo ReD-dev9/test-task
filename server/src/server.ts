@@ -1,11 +1,10 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express } from 'express';
 import { json } from "body-parser";
 import { ApolloServer } from '@apollo/server';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import { expressMiddleware } from "@apollo/server/express4";
 import 'dotenv/config';
 import http from 'http';
-import db from './models';
 import typeDefs from './graphql/typeDefs';
 import resolvers from './graphql/resolvers';
 
