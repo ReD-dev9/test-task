@@ -1,6 +1,7 @@
 import express, { Express } from 'express';
 import { json } from "body-parser";
 import { ApolloServer } from '@apollo/server';
+import cors from 'cors';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import { expressMiddleware } from "@apollo/server/express4";
 import 'dotenv/config';
@@ -13,6 +14,11 @@ const port = process.env.PORT;
 const app: Express = express();
 const httpServer = http.createServer(app);
 
+const corsOptions = {
+    origin: '*',
+    credentials: true
+}
+
 const server = new ApolloServer({
     typeDefs,
     resolvers,
@@ -23,6 +29,7 @@ const startApp = async () => {
     await server.start();
     app.use(
         '/graphql',
+        cors<cors.CorsRequest>(corsOptions),
         json(),
         expressMiddleware(server),
     );
