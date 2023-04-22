@@ -45,9 +45,19 @@ export default {
                 return error;
             }
         },
-        updateTask: async (input: any, id: number) => {
+        updateTask: async (root: any, { id, input }: { id: number; input: { title: string; desc: string } }) => {
             try {
-                const task = await db.models.Task.update(
+                if (!id) {
+                    const taskCreate = await db.models.Task.create({
+                        title: input.title,
+                        desc: input.desc,
+                    });
+                    if (!taskCreate) {
+                        throw new Error('Update task error');
+                    }
+                    return taskCreate;
+                }
+                const taskUpdate = await db.models.Task.update(
                     {
                         title: input.title,
                         desc: input.desc,
@@ -56,9 +66,12 @@ export default {
                         where: { id },
                     },
                 );
-                if (!task) {
+                if (!taskUpdate) {
                     throw new Error('Update task error');
                 }
+                const task = await db.models.Task.findOne({
+                    where: { id },
+                });
                 return task;
             } catch (error) {
                 return error;
@@ -66,9 +79,19 @@ export default {
         },
         deleteTask: async (root: any, { id }: { id: number }) => {
             try {
+                const task = await db.models.Task.findOne({
+                    where: { id },
+                });
+
+                if (!task) {
+                    throw new Error('Task not found');
+                }
+
                 await db.models.Task.destroy({
                     where: { id },
                 });
+
+                return task;
             } catch (error) {
                 return error;
             }

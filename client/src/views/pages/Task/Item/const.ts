@@ -7,12 +7,3 @@ export const deleteTasks = gql`
         }
     }
 `;
-
-export const tasksList = gql`
-    query Query {
-        tasks {
-            title
-            desc
-        }
-    }
-`;

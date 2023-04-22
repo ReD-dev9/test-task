@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { TaskOne, TaskView } from './pages';
+import { TaskView } from './pages';
 import { Home } from '../layouts';
 
 export default createBrowserRouter([
@@ -9,10 +9,6 @@ export default createBrowserRouter([
             {
                 path: '/',
                 element: <TaskView />,
-            },
-            {
-                path: 'task/:id',
-                element: <TaskOne />,
             },
         ],
     },

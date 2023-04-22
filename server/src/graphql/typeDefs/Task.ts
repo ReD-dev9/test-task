@@ -1,6 +1,6 @@
 export default `#graphql
     type Task {
-        id: Int!
+        id: ID
         title: String
         desc: String
     }
@@ -12,11 +12,12 @@ export default `#graphql
 
     type Mutation {
         createTask(input: inputTask) : Task
-        updateTask(input: inputTask, id: Int!) : Task
+        updateTask(input: inputTask, id: Int) : Task
         deleteTask(id: Int!) : Task
     }
 
     input inputTask {
+        id: ID
         title: String
         desc: String
     }
