@@ -1,8 +1,7 @@
-import process from 'process';
-import { DB } from './const';
+import { IDataBase } from './const';
 import 'dotenv/config';
 
-export = {
+const db = {
     development: {
         username: process.env.PG_USER,
         password: process.env.PG_PASSWORD,
@@ -30,4 +29,6 @@ export = {
         dialect: 'postgres',
         seederStorage: 'sequelize',
     },
-} as DB;
+} as IDataBase;
+
+export default db;
