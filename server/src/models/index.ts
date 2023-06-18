@@ -5,9 +5,9 @@ import config from '../config/db';
 import TaskModel from './Tasks';
 const env = process.env.NODE_ENV || 'development';
 
-const db = new Sequelize(config[env].database, config[env].username, config[env].password, {
+const db = new Sequelize(config[env].database!, config[env].username!, config[env].password, {
     host: config[env].host,
-    port: +config[env].port,
+    port: +config[env].port!,
     dialect: config[env].dialect,
 });
 

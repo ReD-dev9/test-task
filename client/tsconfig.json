@@ -14,7 +14,8 @@
         "jsx": "react-jsx",
         "paths": {
             "test-utils": ["./src/setupTests/test-utils/test-utils.js"]
-        }
+        },
+        "noImplicitAny": true,     
     },
-    "include": ["src", "App.tsx", "App.tsx", "index.tsx", "index.tsx"]
+    "include": ["src"]
 }

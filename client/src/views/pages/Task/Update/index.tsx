@@ -1,18 +1,23 @@
+import { FC } from 'react';
 import { TextField, FormControl, Button, Grid } from '@mui/material';
 import { Send } from '@mui/icons-material';
 import { useMutation, ApolloCache } from '@apollo/client';
 import { useFormik } from 'formik';
 import { updateTasks, tasksList, validationTask } from './const';
 
-const TaskUpdate = ({ onClose, task }: any) => {
+import { TTask, ITasks } from '../TypesTask';
+
+const TaskUpdate: FC<{ onClose: () => void; task?: TTask }> = ({ onClose, task }) => {
     const [modifyTask] = useMutation(updateTasks, {
-        update(cache: ApolloCache<any>, { data: { updateTask } }) {
+        update(cache: ApolloCache<ITasks>, { data: { updateTask } }) {
             const { tasks } = cache.readQuery<any>({ query: tasksList });
             if (task?.id) {
                 cache.modify({
                     fields: {
                         tasks(currentTask = []) {
-                            return currentTask.filter((item: any) => (+updateTask.id === +item.id ? updateTask : item));
+                            return currentTask.filter((item: TTask) =>
+                                +updateTask.id === +item.id ? updateTask : item,
+                            );
                         },
                     },
                 });
@@ -30,14 +35,14 @@ const TaskUpdate = ({ onClose, task }: any) => {
         initialValues: {
             title: task?.title ?? '',
             desc: task?.desc ?? '',
-        } as { title: string; desc: string },
+        },
         validationSchema: validationTask,
         onSubmit: (values) => {
             const { title, desc } = values;
             modifyTask({
                 variables: {
                     input: { title, desc },
-                    updateTaskId: +task?.id,
+                    updateTaskId: Number(task?.id),
                 },
             });
             onClose();
@@ -54,8 +59,8 @@ const TaskUpdate = ({ onClose, task }: any) => {
                             label="Текст задачи"
                             value={values.title}
                             onChange={handleChange}
-                            helperText={errors.title}
-                            error={Boolean(errors.title) && Boolean(touched.title)}
+                            helperText={touched.title && errors.title}
+                            error={Boolean(errors.title) && touched.title}
                         />
                     </FormControl>
                 </Grid>
@@ -63,11 +68,11 @@ const TaskUpdate = ({ onClose, task }: any) => {
                     <FormControl fullWidth>
                         <TextField
                             name="desc"
-                            onChange={handleChange}
-                            value={values.desc}
-                            helperText={errors.desc}
                             label="Описание задачи"
-                            error={Boolean(errors.desc) && Boolean(touched.desc)}
+                            value={values.desc}
+                            onChange={handleChange}
+                            helperText={touched.desc && errors.desc}
+                            error={Boolean(errors.desc) && touched.desc}
                         />
                     </FormControl>
                 </Grid>

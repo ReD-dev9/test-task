@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import {
     IconButton,
     ListItem,
@@ -14,10 +14,12 @@ import { deleteTasks } from './const';
 import TaskEdit from '../Update';
 import Moment from 'react-moment';
 
-const TaskItem = ({ task }: any): any => {
+import { TTask } from '../TypesTask';
+
+const TaskItem: FC<{ task: TTask }> = ({ task }) => {
     const [open, setOpen] = useState<boolean>(false);
     const [delTask] = useMutation(deleteTasks, {
-        update(cache: ApolloCache<any>, { data: { deleteTask } }) {
+        update(cache: ApolloCache<TTask>, { data: { deleteTask } }) {
             cache.modify({
                 fields: {
                     tasks(currentTask = []) {
@@ -28,15 +30,15 @@ const TaskItem = ({ task }: any): any => {
         },
     });
 
-    const handleClickOpen = () => {
+    const handleClickOpen = (): void => {
         setOpen(true);
     };
 
-    const handleClose = () => {
+    const handleClose = (): void => {
         setOpen(false);
     };
 
-    const deleteSubmit = (id: any) => {
+    const deleteSubmit = (id: number) => {
         delTask({ variables: { deleteTaskId: +(id ?? -1) } });
     };
 
