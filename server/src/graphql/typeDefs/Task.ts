@@ -11,9 +11,9 @@ export default `#graphql
     }
 
     type Mutation {
-        createTask(input: inputTask) : Task
-        updateTask(input: inputTask, id: Int) : Task
-        deleteTask(id: Int!) : Task
+        createTask(input: inputTask): Task
+        updateTask(input: inputTask, id: Int): Task
+        deleteTask(id: Int!): Task
     }
 
     input inputTask {

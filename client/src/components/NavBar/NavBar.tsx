@@ -2,7 +2,7 @@ import { AppBar, Toolbar, Typography, IconButton } from '@mui/material';
 import { ExitToApp, Dashboard } from '@mui/icons-material';
 
 const NavBar = () => {
-    const exit = () => {
+    const exit = (): void => {
         console.log('exit');
     };
 

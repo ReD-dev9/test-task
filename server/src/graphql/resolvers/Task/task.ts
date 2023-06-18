@@ -1,4 +1,5 @@
-import db from '../../models';
+import db from '../../../models';
+import {ITask} from './const'
 
 export default {
     Query: {
@@ -13,7 +14,7 @@ export default {
                 return error;
             }
         },
-        oneTask: async (root: any, { id }: { id: number }) => {
+        oneTask: async (root: any, { id }: ITask) => {
             try {
                 const task = await db.models.Task.findOne({
                     where: { id },
@@ -29,9 +30,8 @@ export default {
         },
     },
     Mutation: {
-        createTask: async (root: any, { input }: { input: { title: string; desc: string } }) => {
+        createTask: async (root: any, { input }: ITask) => {
             try {
-                console.log(input);
                 const task = await db.models.Task.create({
                     title: input.title,
                     desc: input.desc,
@@ -45,7 +45,7 @@ export default {
                 return error;
             }
         },
-        updateTask: async (root: any, { id, input }: { id: number; input: { title: string; desc: string } }) => {
+        updateTask: async (root: any, { id, input }: ITask) => {
             try {
                 if (!id) {
                     const taskCreate = await db.models.Task.create({
@@ -77,7 +77,7 @@ export default {
                 return error;
             }
         },
-        deleteTask: async (root: any, { id }: { id: number }) => {
+        deleteTask: async (root: any, { id }: ITask) => {
             try {
                 const task = await db.models.Task.findOne({
                     where: { id },
